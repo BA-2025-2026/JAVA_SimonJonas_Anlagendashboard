@@ -3,7 +3,9 @@ package net.ictcampus.semodul.anlagendashboard.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -17,16 +19,18 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Simple test button
-        Button btn = new Button("Test on Console");
-        btn.setOnAction(e -> System.out.println("Test from GUI."));
+        // GetUserById text field and button
+        TextField userIdField = new TextField();
+        userIdField.setPromptText("User ID");
+        Button btn = new Button("Find User by ID");
+        btn.setOnAction(e -> System.out.println("Test from GUI: Find user by id " + userIdField.getText()));
 
         // Create layout and add elements (button)
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(userIdField, btn);
 
         // Create scene (window content)
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(vBox, 600, 400);
 
         // Configure Stage (window itself)
         stage.setTitle("Anlagendashboard");
