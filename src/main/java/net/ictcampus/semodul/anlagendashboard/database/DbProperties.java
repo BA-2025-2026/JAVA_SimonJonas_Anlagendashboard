@@ -12,7 +12,7 @@ import java.util.Properties;
  * To enable db connection add a file "config.properties" to your project folder.
  * File needs to follow this structure:
  *
- * db.url=jdbc:mysql://localhost:3306/Casino
+ * db.url=jdbc:mysql://localhost:3306/java_simonjonas_anlagendashboard_db
  * db.user=[YOUR USERNAME]
  * db.password=[YOUR PASSWORD]
  */
