@@ -15,6 +15,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Start JavaFX GUI Setup here
+        // Hallo Simon war hier.
     }
 
     public static void main(String[] args) {
