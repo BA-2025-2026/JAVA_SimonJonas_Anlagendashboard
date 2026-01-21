@@ -5,4 +5,6 @@ module com.example.demo {
 
     opens net.ictcampus.semodul.anlagendashboard to javafx.fxml;
     exports net.ictcampus.semodul.anlagendashboard;
+    exports net.ictcampus.semodul.anlagendashboard.gui;
+    opens net.ictcampus.semodul.anlagendashboard.gui to javafx.fxml;
 }
