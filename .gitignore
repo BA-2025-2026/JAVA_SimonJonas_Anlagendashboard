@@ -1,3 +1,8 @@
+### JDBC Database Connection ###
+# Property file that stores database link, user and password information.
+config.properties
+
+### Basics ###
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
