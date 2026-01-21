@@ -44,7 +44,7 @@ public class UserJdbcDao implements UserDao {
 	}
 	public static void main(String[] args) {
 		UserJdbcDao dao = new UserJdbcDao();
-		UserModel Test = dao.findById(0);
+		UserModel Test = dao.findById(1);
 		System.out.println(Test.getFirstName());
 
 	}
