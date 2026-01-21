@@ -2,7 +2,6 @@ module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
 
-
-    opens com.example.demo to javafx.fxml;
-    exports com.example.demo;
+    opens net.ictcampus.semodul.anlagendashboard to javafx.fxml;
+    exports net.ictcampus.semodul.anlagendashboard;
 }
