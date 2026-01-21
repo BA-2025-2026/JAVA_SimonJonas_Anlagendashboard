@@ -16,15 +16,19 @@ public class UserController {
 
         try {
             // Call to userService
+            // TODO: Get userDto from service once simon has the method ready.
+            UserDto userDto = new UserDto();
 
-            UserDto userDto = userService.toString();
+            String json = JsonUtil.toJson(userDto);
+            System.out.println(json);
 
         } catch (RuntimeException e) {
             // Create error dto from error message
             ErrorDto errorDto = new ErrorDto(e.getMessage());
-            // Convert to JSON and output on console
-            System.out.println(JsonUtil.toJson(errorDto));
 
+            // Convert to JSON and output on console
+            String json = JsonUtil.toJson(errorDto);
+            System.out.println(json);
         }
     }
 
