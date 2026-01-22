@@ -22,17 +22,22 @@ public class UserService {
 	 * @return UserDto or null if no user with this ID exists
 	 */
 	public UserDto getUserDto(int id) {
-		UserModel user = userDao.findById(id);
+		if (id > 0) {
+			UserModel user = userDao.findById(id);
 
-		if (user == null) {
-			return null; // no user found → caller decides how to handle it
+			if (user == null) {
+				return null; // no user found → caller decides how to handle it
+			}
+
+			return new UserDto(
+					user.getId(),
+					user.getFirstName(),
+					user.getLastName(),
+					user.getEmail()
+			);
+		} else {
+			throw new IllegalArgumentException("Invalid user ID: " + id);
 		}
 
-		return new UserDto(
-				user.getId(),
-				user.getFirstName(),
-				user.getLastName(),
-				user.getEmail()
-		);
 	}
 }
