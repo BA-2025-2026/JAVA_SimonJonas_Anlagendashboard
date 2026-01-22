@@ -16,7 +16,7 @@ public class UserController {
 
         try {
             // Call to userService
-            // TODO: Get userDto from service once simon has the method ready.
+            // TODO: Get userDto from service once Simon has the method ready.
             UserDto userDto = new UserDto();
 
             String json = JsonUtil.toJson(userDto);
@@ -31,5 +31,4 @@ public class UserController {
             System.out.println(json);
         }
     }
-
 }
