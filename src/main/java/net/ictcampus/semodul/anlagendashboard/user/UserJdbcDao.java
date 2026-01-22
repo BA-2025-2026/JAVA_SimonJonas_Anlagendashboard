@@ -43,4 +43,9 @@ public class UserJdbcDao implements UserDao {
 			throw new RuntimeException("Error from database while trying to get user data for user with ID " + id, e);
 		}
 	}
+	public static void main(String[] args) {
+		UserJdbcDao dao = new UserJdbcDao();
+		UserModel Test = dao.findById(1);
+		System.out.println(Test.getFirstName());
+	}
 }
