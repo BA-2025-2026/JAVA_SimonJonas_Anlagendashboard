@@ -3,6 +3,9 @@ package net.ictcampus.semodul.anlagendashboard.user;
 import net.ictcampus.semodul.anlagendashboard.utility.ErrorDto;
 import net.ictcampus.semodul.anlagendashboard.utility.JsonUtil;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 public class UserController {
     private UserService userService;
 
@@ -16,19 +19,25 @@ public class UserController {
 
         try {
             // Call to userService
-            // TODO: Get userDto from service once Simon has the method ready.
-            UserDto userDto = new UserDto();
+            UserDto userDto = userService.getUserById(userId);
 
-            String json = JsonUtil.toJson(userDto);
-            System.out.println(json);
+            if (userDto == null) {
+                // Service didn't find a user for the requested id
+                ErrorDto errorDto = new ErrorDto("Didn't find a user with id " + userId);
+                System.out.println(JsonUtil.toJson(errorDto));
+            } else {
+                // Success: Return user information
+                System.out.println(JsonUtil.toJson(userDto));
+            }
 
+        } catch (IllegalArgumentException e) {
+            // Catch error from Service
+            ErrorDto errorDto = new ErrorDto("Invalid request: " + e.getMessage());
+            System.out.println(JsonUtil.toJson(errorDto));
         } catch (RuntimeException e) {
-            // Create error dto from error message
+            // Catch error from JDBC etc.
             ErrorDto errorDto = new ErrorDto(e.getMessage());
-
-            // Convert to JSON and output on console
-            String json = JsonUtil.toJson(errorDto);
-            System.out.println(json);
+            System.out.println(JsonUtil.toJson(errorDto));
         }
     }
 }

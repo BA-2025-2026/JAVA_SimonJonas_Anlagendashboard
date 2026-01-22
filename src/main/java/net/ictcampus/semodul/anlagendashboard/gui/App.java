@@ -8,6 +8,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.ictcampus.semodul.anlagendashboard.user.UserController;
+import net.ictcampus.semodul.anlagendashboard.user.UserDao;
+import net.ictcampus.semodul.anlagendashboard.user.UserJdbcDao;
 import net.ictcampus.semodul.anlagendashboard.user.UserService;
 
 /**
@@ -20,7 +22,8 @@ import net.ictcampus.semodul.anlagendashboard.user.UserService;
 public class App extends Application {
 
     // Dependency Injection
-    UserService userService = new UserService();
+    UserDao userDao = new UserJdbcDao();
+    UserService userService = new UserService(userDao);
     UserController userController = new UserController(userService);
 
     @Override

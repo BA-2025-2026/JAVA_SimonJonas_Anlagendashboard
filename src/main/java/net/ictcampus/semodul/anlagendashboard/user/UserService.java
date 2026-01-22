@@ -21,7 +21,7 @@ public class UserService {
 	 * @param id ID of the user
 	 * @return UserDto or null if no user with this ID exists
 	 */
-	public UserDto getUserDto(int id) {
+	public UserDto getUserById(int id) {
 		if (id > 0) {
 			UserModel user = userDao.findById(id);
 
