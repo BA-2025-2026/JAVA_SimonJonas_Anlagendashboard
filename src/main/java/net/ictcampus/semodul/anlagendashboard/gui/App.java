@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import net.ictcampus.semodul.anlagendashboard.user.UserController;
+import net.ictcampus.semodul.anlagendashboard.user.UserService;
 
 /**
  * Main application class.
@@ -17,13 +19,25 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
+    // Dependency Injection
+    UserService userService = new UserService();
+    UserController userController = new UserController(userService);
+
     @Override
     public void start(Stage stage) {
         // GetUserById text field and button
         TextField userIdField = new TextField();
         userIdField.setPromptText("User ID");
         Button btn = new Button("Find User by ID");
-        btn.setOnAction(e -> System.out.println("Test from GUI: Find user by id " + userIdField.getText()));
+        btn.setOnAction(e -> {
+            try {
+                int userId = Integer.parseInt(userIdField.getText());
+                userController.getUserByIdEndpoint(userId);
+                userIdField.clear();
+            } catch (NumberFormatException er) {
+                System.out.println("User ID needs to be a number (integer): " + er.getMessage());
+            }
+        });
 
         // Create layout and add elements (button)
         VBox vBox = new VBox();
