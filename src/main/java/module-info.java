@@ -1,4 +1,4 @@
-module com.example.demo {
+module net.ictcampus.semodul.anlagendashboard {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
