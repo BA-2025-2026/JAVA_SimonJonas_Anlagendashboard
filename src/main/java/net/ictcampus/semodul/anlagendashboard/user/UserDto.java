@@ -3,6 +3,12 @@
  */
 package net.ictcampus.semodul.anlagendashboard.user;
 
+/**
+ * Data transfer object used to send user information out through the api.
+ * Leaves out sensitive information that should never be sent out, like the password hash or others.
+ * Use this UserDto to fill user data into it after the service completes it's work.
+ * Then hand this UserDto to the controller to process the data.
+ */
 public class UserDto {
 	private int userId;
 	private String firstName;

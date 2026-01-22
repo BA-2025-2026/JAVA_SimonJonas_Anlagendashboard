@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * JDBC-based Data Access Object for user-related operations.
+ * JDBC-based Database Access Object for user-related operations.
  */
 
 public class UserJdbcDao implements UserDao {
@@ -31,9 +31,9 @@ public class UserJdbcDao implements UserDao {
 			if (rs.next()) {
 				return new UserModel(
 						rs.getInt("ID_User"),
-						rs.getString("Email"),
 						rs.getString("FirstName"),
 						rs.getString("LastName"),
+						rs.getString("Email"),
 						rs.getString("Password")
 				);
 			} else {
@@ -41,7 +41,8 @@ public class UserJdbcDao implements UserDao {
 			}
 
 		} catch (SQLException e) {
-			throw new RuntimeException("Error from database while trying to get user data for user with ID " + id, e);
+			throw new RuntimeException(
+					"Error from database while trying to get user data for user with ID " + id + ". " + e.getMessage(), e);
 		}
 	}
 }

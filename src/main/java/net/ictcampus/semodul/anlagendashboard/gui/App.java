@@ -14,7 +14,7 @@ import net.ictcampus.semodul.anlagendashboard.user.UserService;
 
 /**
  * Main application class.
- * Does the Setup for JavaFX GUI: The GUI is used to trigger requests to the
+ * Does the Setup and rendering for JavaFX GUI: The GUI is used to trigger requests to the
  * endpoints of the mockup API.
  *
  * @author jve
@@ -32,6 +32,7 @@ public class App extends Application {
         TextField userIdField = new TextField();
         userIdField.setPromptText("User ID");
         Button btn = new Button("Find User by ID");
+        // Send a request to getUserByIdEndpoint in the user controller
         btn.setOnAction(e -> {
             try {
                 int userId = Integer.parseInt(userIdField.getText());

@@ -3,6 +3,10 @@
  */
 package net.ictcampus.semodul.anlagendashboard.user;
 
+/**
+ * Models the table "user" of the database. With this UserModel we can store user data that we receive from the database,
+ * in the RAM of our application for further processing.
+ */
 public class UserModel {
 	private int userId;
 	private String firstName;
