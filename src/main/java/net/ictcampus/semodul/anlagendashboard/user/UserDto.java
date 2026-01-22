@@ -4,19 +4,19 @@
 package net.ictcampus.semodul.anlagendashboard.user;
 
 public class UserDto {
-	private int id;
+	private int userId;
 	private String firstName;
 	private String lastName;
 	private String email;
 
-	public UserDto(int id, String firstName, String lastName, String email) {
-		this.id = id;
+	public UserDto(int userId, String firstName, String lastName, String email) {
+		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 	}
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return userId;
 	}
 	public String getFirstName() {
 		return firstName;
