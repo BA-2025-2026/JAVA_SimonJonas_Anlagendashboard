@@ -8,4 +8,8 @@ module net.ictcampus.semodul.anlagendashboard {
     exports net.ictcampus.semodul.anlagendashboard;
     exports net.ictcampus.semodul.anlagendashboard.gui;
     opens net.ictcampus.semodul.anlagendashboard.gui to javafx.fxml;
+
+    // Give utility and user packages access to module GSON
+    opens net.ictcampus.semodul.anlagendashboard.utility to com.google.gson;
+    opens net.ictcampus.semodul.anlagendashboard.user to com.google.gson;
 }
