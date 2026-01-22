@@ -17,6 +17,7 @@ public class UserJdbcDao implements UserDao {
 	 * @param id User-ID
 	 * @return UserModel object containing user data or null if user not found
 	 */
+	@Override
 	public UserModel findById(int id) {
 		String sql = "SELECT ID_User, Email, FirstName, LastName, Password FROM user WHERE ID_User = ?";
 		try (Connection con = ConnectionFactory.getInstance().getConnection();

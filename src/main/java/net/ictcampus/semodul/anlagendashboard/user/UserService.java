@@ -26,11 +26,11 @@ public class UserService {
 			UserModel user = userDao.findById(id);
 
 			if (user == null) {
-				return null; // no user found → caller decides how to handle it
+				return null;
 			}
 
 			return new UserDto(
-					user.getId(),
+					user.getUserId(),
 					user.getFirstName(),
 					user.getLastName(),
 					user.getEmail()
