@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/db87a77d-f209-4da6-bc6e-b8ec8b90c5a3/console.sql" value="db87a77d-f209-4da6-bc6e-b8ec8b90c5a3" />
     <file url="file://$PROJECT_DIR$/src/main/java/net/ictcampus/semodul/anlagendashboard/database/console/CreateDatabase.sql" value="db87a77d-f209-4da6-bc6e-b8ec8b90c5a3" />
     <file url="file://$PROJECT_DIR$/src/main/java/net/ictcampus/semodul/anlagendashboard/database/console/ImportFromCSV.sql" value="db87a77d-f209-4da6-bc6e-b8ec8b90c5a3" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/ictcampus/semodul/anlagendashboard/portfoliometrics/PriceJdbcDao.java" value="db87a77d-f209-4da6-bc6e-b8ec8b90c5a3" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/ictcampus/semodul/anlagendashboard/portfoliometrics/UserAssetJdbcDao.java" value="db87a77d-f209-4da6-bc6e-b8ec8b90c5a3" />
     <file url="file://$PROJECT_DIR$/src/main/java/net/ictcampus/semodul/anlagendashboard/user/UserJdbcDao.java" value="db87a77d-f209-4da6-bc6e-b8ec8b90c5a3" />
   </component>
 </project>
