@@ -38,7 +38,7 @@ public class UserAssetJdbcDao implements UserAssetDao {
 			try (ResultSet rs = ps.executeQuery()) {
 				while (rs.next()) {
 					openPositions.add(new UserAssetModel(
-							rs.getInt("ID_UserAsset"),
+							rs.getInt("ID_User_Asset"),
 							rs.getInt("User_ID"),
 							rs.getInt("Asset_ID"),
 							rs.getInt("Broker_ID"),
@@ -55,6 +55,40 @@ public class UserAssetJdbcDao implements UserAssetDao {
 		}
 
 		return openPositions;
+	}
+
+	public static void main(String[] args) {
+		// Create an instance of the DAO
+		UserAssetJdbcDao dao = new UserAssetJdbcDao();
+
+		// Test with user ID 1 (adjust based on your test data)
+		int testUserId = 1;
+
+		System.out.println("Testing getOpenPositionsByUserId() with User ID: " + testUserId);
+		System.out.println("-----------------------------------------------------------");
+
+		try {
+			List<UserAssetModel> openPositions = dao.getOpenPositionsByUserId(testUserId);
+
+			if (openPositions.isEmpty()) {
+				System.out.println("No open positions found for user ID " + testUserId);
+			} else {
+				System.out.println("Found " + openPositions.size() + " open position(s):");
+				for (UserAssetModel position : openPositions) {
+					System.out.println("\nPosition Details:");
+					System.out.println("  ID: " + position.getAssetId());
+					System.out.println("  User ID: " + position.getUserId());
+					System.out.println("  Asset ID: " + position.getAssetId());
+					System.out.println("  Broker ID: " + position.getBrokerId());
+					System.out.println("  Quantity: " + position.getQuantity());
+					System.out.println("  Purchased At: " + position.getPurchasedAt());
+					System.out.println("  Sold At: " + position.getSoldAt());
+				}
+			}
+		} catch (RuntimeException e) {
+			System.err.println("Error occurred while testing: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 }
