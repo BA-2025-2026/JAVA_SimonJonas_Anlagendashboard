@@ -1,7 +1,8 @@
 /**
- * Represents a entry in the table user_asset with details such as ID, user ID, asset ID, broker ID, quantity, purchase and sale timestamps.
+ * Represents a entry in the table user_asset with details such as ID, user ID, asset ID,
+ * broker ID, quantity, purchase and sale timestamps.
  */
-package net.ictcampus.semodul.anlagendashboard.protfoliometrics;
+package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +15,8 @@ public class UserAssetModel {
 	private LocalDateTime purchasedAt;
 	private LocalDateTime soldAt;
 
-	public UserAssetModel(int idUserAsset, int userId, int assetId, int brokerId, int quantity, LocalDateTime purchasedAt, LocalDateTime soldAt) {
+	public UserAssetModel(int idUserAsset, int userId, int assetId, int brokerId, int quantity,
+						  LocalDateTime purchasedAt, LocalDateTime soldAt) {
 		this.idUserAsset = idUserAsset;
 		this.userId = userId;
 		this.assetId = assetId;
