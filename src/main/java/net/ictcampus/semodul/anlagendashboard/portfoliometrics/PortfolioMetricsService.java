@@ -88,19 +88,42 @@ public class PortfolioMetricsService {
         // Return sum
     }
 
-    public double getAbsolutePerformanceByUserId(int userId) {
-        // Get current portfolio value
-        double currentPortfolioValue = getTotalPortfolioValueByUserId(userId);
-
-        // Get amount the user originally invested
-        double investedTotal = getInvestedTotalByUserId(userId);
-
-        // Calculate absolute performance (win / loss)
-        return currentPortfolioValue - investedTotal;
+    public double calculateAbsolutePerformance(double startValue, double endValue) {
+        if (startValue < 0 || endValue < 0) throw new IllegalArgumentException("Values for performance calculation cannot be negative");
+        return endValue - startValue;
     }
 
-    // TODO: Sollte man hier nicht eher ein objekt schrittweise befüllen? sonst muss man ja immer alle daten nochmal
-    // neu fetchen und berechnen!!???
+    public double calculateRelativePerformance(double startValue, double endValue) {
+        if (startValue < 0 || endValue < 0) throw new IllegalArgumentException("Values for performance calculation cannot be negative");
+
+        // Prevent division by 0 (If start value is 0)
+        if (startValue == 0) {
+            // Climbing from 0 to any amount would be an infinitely high performance, hence we return 1 (= 100%)
+            // If end value is 0 too, there has been no performance at all, return 0 (= 0%)
+            return endValue > 0 ? 1.0 : 0.0;
+        }
+
+        // Performance formula: (endValue - startValue) / startValue
+        // Returns performance in performance (positive or negative) as a percentage (a double between 0 and 1).
+        return (endValue - startValue) / startValue;
+    }
+
+    public PortfolioMetricsDto getPortfolioMetricsByUserId(int userId) {
+        // Get metrics
+        double totalPortfolioValue = getTotalPortfolioValueByUserId(userId);
+        double investedTotal = getInvestedTotalByUserId(userId);
+        double absolutePerformance = calculateAbsolutePerformance(investedTotal, totalPortfolioValue);
+        double relativePerformance = calculateRelativePerformance(investedTotal, totalPortfolioValue);
+
+        // Return DTO
+        return new PortfolioMetricsDto(
+                userId,
+                totalPortfolioValue,
+                investedTotal,
+                absolutePerformance,
+                relativePerformance
+        );
+    }
 
 
 }
