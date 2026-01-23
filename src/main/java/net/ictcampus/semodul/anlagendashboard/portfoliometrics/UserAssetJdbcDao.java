@@ -2,7 +2,7 @@
  * JDBC implementation of the UserAssetDao interface.
  */
 
-package net.ictcampus.semodul.anlagendashboard.protfoliometrics;
+package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import net.ictcampus.semodul.anlagendashboard.database.ConnectionFactory;
 

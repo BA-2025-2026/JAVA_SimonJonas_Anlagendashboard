@@ -1,7 +1,7 @@
 /**
  * Interface for accessing price data of assets.
  */
-package net.ictcampus.semodul.anlagendashboard.protfoliometrics;
+package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import java.time.LocalDateTime;
 

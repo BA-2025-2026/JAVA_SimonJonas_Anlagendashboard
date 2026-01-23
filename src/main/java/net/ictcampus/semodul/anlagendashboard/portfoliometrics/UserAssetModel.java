@@ -1,7 +1,7 @@
 /**
  * Represents a entry in the table user_asset with details such as ID, user ID, asset ID, broker ID, quantity, purchase and sale timestamps.
  */
-package net.ictcampus.semodul.anlagendashboard.protfoliometrics;
+package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import java.time.LocalDateTime;
 

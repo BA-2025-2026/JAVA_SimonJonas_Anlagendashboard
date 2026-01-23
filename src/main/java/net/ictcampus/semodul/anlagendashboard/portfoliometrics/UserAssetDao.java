@@ -1,7 +1,7 @@
 /**
  * Interface for accessing user asset data.
  */
-package net.ictcampus.semodul.anlagendashboard.protfoliometrics;
+package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import java.util.List;
 

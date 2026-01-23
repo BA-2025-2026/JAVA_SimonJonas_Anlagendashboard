@@ -1,7 +1,7 @@
 /**
  * Data model representing the price of an asset at a specific point in time.
  */
-package net.ictcampus.semodul.anlagendashboard.protfoliometrics;
+package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import java.time.LocalDateTime;
 
