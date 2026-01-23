@@ -12,4 +12,5 @@ module net.ictcampus.semodul.anlagendashboard {
     // Give utility package and user package access to module GSON
     opens net.ictcampus.semodul.anlagendashboard.utility to com.google.gson;
     opens net.ictcampus.semodul.anlagendashboard.user to com.google.gson;
+    opens net.ictcampus.semodul.anlagendashboard.portfoliometrics to com.google.gson;
 }
