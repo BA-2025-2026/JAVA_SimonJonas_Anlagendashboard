@@ -1,9 +1,9 @@
 package net.ictcampus.semodul.anlagendashboard.utility;
 
-public class FinanceMethUtil {
+public class FinanceMathUtil {
 
     // Prevent creation of instances (private keyword)
-    private FinanceMethUtil() {}
+    private FinanceMathUtil() {}
 
     /**
      * Calculates the absolute difference between the start value and the end value.

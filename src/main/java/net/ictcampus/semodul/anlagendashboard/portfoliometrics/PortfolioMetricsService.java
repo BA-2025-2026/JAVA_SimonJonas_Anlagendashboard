@@ -1,5 +1,7 @@
 package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
+import net.ictcampus.semodul.anlagendashboard.utility.FinanceMathUtil;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +12,31 @@ public class PortfolioMetricsService {
 
     // constructor
 
+
+    public PortfolioMetricsDto getPortfolioMetricsByUserId(int userId) {
+        // Get metrics
+        double totalPortfolioValue = getTotalPortfolioValueByUserId(userId);
+        double investedTotal = getInvestedTotalByUserId(userId);
+        double absolutePerformance = FinanceMathUtil.calculateAbsolutePerformance(investedTotal, totalPortfolioValue);
+        double relativePerformance = FinanceMathUtil.calculateRelativePerformance(investedTotal, totalPortfolioValue);
+
+        // Return DTO
+        return new PortfolioMetricsDto(
+                userId,
+                totalPortfolioValue,
+                investedTotal,
+                absolutePerformance,
+                relativePerformance
+        );
+    }
+
     /**
      * Returns the asset price closest to the given timestamp.
-     * @param timestampProvided The target timestamp.
+     * @param timestampTarget The target timestamp.
      * @param assetId The unique identifier of the asset.
      * @return PriceModel containing the closest available price data.
      */
-    public PriceModel getPriceByTimeAndAssetId(LocalDate timestampProvided, int assetId) {
+    public PriceModel getPriceByTimeAndAssetId(LocalDate timestampTarget, int assetId) {
 
         // Get priceModel of the asset right before provided timestamp
         PriceModel priceBefore =;
@@ -24,7 +44,7 @@ public class PortfolioMetricsService {
         PriceModel priceAfter =;
 
         // Calculate time delta to see which price is closest to provided timestamp
-        if (timestampProvided - priceBefore.getTimestamp() <= priceAfter.getTimestamp() - timestampProvided) {
+        if (timestampTarget - priceBefore.getTimestamp() <= priceAfter.getTimestamp() - timestampTarget) {
             // Price right before is closest to timestamp
             return priceBefore;
         } else {
@@ -86,43 +106,6 @@ public class PortfolioMetricsService {
         // Sum prices
 
         // Return sum
-    }
-
-    public double calculateAbsolutePerformance(double startValue, double endValue) {
-        if (startValue < 0 || endValue < 0) throw new IllegalArgumentException("Values for performance calculation cannot be negative");
-        return endValue - startValue;
-    }
-
-    public double calculateRelativePerformance(double startValue, double endValue) {
-        if (startValue < 0 || endValue < 0) throw new IllegalArgumentException("Values for performance calculation cannot be negative");
-
-        // Prevent division by 0 (If start value is 0)
-        if (startValue == 0) {
-            // Climbing from 0 to any amount would be an infinitely high performance, hence we return 1 (= 100%)
-            // If end value is 0 too, there has been no performance at all, return 0 (= 0%)
-            return endValue > 0 ? 1.0 : 0.0;
-        }
-
-        // Performance formula: (endValue - startValue) / startValue
-        // Returns performance in performance (positive or negative) as a percentage (a double between 0 and 1).
-        return (endValue - startValue) / startValue;
-    }
-
-    public PortfolioMetricsDto getPortfolioMetricsByUserId(int userId) {
-        // Get metrics
-        double totalPortfolioValue = getTotalPortfolioValueByUserId(userId);
-        double investedTotal = getInvestedTotalByUserId(userId);
-        double absolutePerformance = calculateAbsolutePerformance(investedTotal, totalPortfolioValue);
-        double relativePerformance = calculateRelativePerformance(investedTotal, totalPortfolioValue);
-
-        // Return DTO
-        return new PortfolioMetricsDto(
-                userId,
-                totalPortfolioValue,
-                investedTotal,
-                absolutePerformance,
-                relativePerformance
-        );
     }
 
 
