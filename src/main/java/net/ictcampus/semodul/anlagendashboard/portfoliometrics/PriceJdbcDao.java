@@ -1,4 +1,4 @@
-package net.ictcampus.semodul.anlagendashboard.protfoliometrics;
+package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import net.ictcampus.semodul.anlagendashboard.database.ConnectionFactory;
 
@@ -105,56 +105,4 @@ public class PriceJdbcDao implements PriceDao {
 							+ assetId + " and timestamp " + timestamp + ".", e);
 		}
 	}
-
-	public static void main(String[] args) {
-		// Create an instance of PriceJdbcDao
-		PriceJdbcDao priceDao = new PriceJdbcDao();
-
-		// Test data: asset ID and timestamp
-		int testAssetId = 1;
-		LocalDateTime testTimestamp = LocalDateTime.of(2024, 1, 15, 12, 0);
-
-		System.out.println("Testing PriceJdbcDao");
-		System.out.println("===================");
-		System.out.println("Test Asset ID: " + testAssetId);
-		System.out.println("Test Timestamp: " + testTimestamp);
-		System.out.println();
-
-		// Test getPriceBeforeTimestampByAssetID
-		try {
-			System.out.println("Testing getPriceBeforeTimestampByAssetID:");
-			PriceModel priceBefore = priceDao.getPriceBeforeTimestampByAssetID(testTimestamp, testAssetId);
-			if (priceBefore != null) {
-				System.out.println("Found price before timestamp:");
-				System.out.println("  Price ID: " + priceBefore.getPrice());
-				System.out.println("  Asset ID: " + priceBefore.getAssetId());
-				System.out.println("  Timestamp: " + priceBefore.getTimestamp());
-				System.out.println("  Price: " + priceBefore.getPrice());
-			} else {
-				System.out.println("No price found before timestamp.");
-			}
-		} catch (RuntimeException e) {
-			System.err.println("Error: " + e.getMessage());
-		}
-
-		System.out.println();
-
-		// Test getPriceAfterTimestampByAssetID
-		try {
-			System.out.println("Testing getPriceAfterTimestampByAssetID:");
-			PriceModel priceAfter = priceDao.getPriceAfterTimestampByAssetID(testTimestamp, testAssetId);
-			if (priceAfter != null) {
-				System.out.println("Found price after timestamp:");
-				System.out.println("  Price ID: " + priceAfter.getPrice());
-				System.out.println("  Asset ID: " + priceAfter.getAssetId());
-				System.out.println("  Timestamp: " + priceAfter.getTimestamp());
-				System.out.println("  Price: " + priceAfter.getPrice());
-			} else {
-				System.out.println("No price found after timestamp.");
-			}
-		} catch (RuntimeException e) {
-			System.err.println("Error: " + e.getMessage());
-		}
-	}
-
 }
