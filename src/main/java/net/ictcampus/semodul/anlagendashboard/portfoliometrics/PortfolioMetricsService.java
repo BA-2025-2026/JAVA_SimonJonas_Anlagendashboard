@@ -1,17 +1,20 @@
 package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import net.ictcampus.semodul.anlagendashboard.utility.FinanceMathUtil;
+import net.ictcampus.semodul.anlagendashboard.utility.TimeUtil;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PortfolioMetricsService {
+    PriceDao priceDao;
+    UserAssetDao userAssetDao;
 
-    // Inject daos
-
-    // constructor
-
+    public PortfolioMetricsService(PriceDao priceDao, UserAssetDao userAssetDao) {
+        this.priceDao = priceDao;
+        this.userAssetDao = userAssetDao;
+    }
 
     public PortfolioMetricsDto getPortfolioMetricsByUserId(int userId) {
         // Get metrics
@@ -36,21 +39,22 @@ public class PortfolioMetricsService {
      * @param assetId The unique identifier of the asset.
      * @return PriceModel containing the closest available price data.
      */
-    public PriceModel getPriceByTimeAndAssetId(LocalDate timestampTarget, int assetId) {
+    public PriceModel getPriceByTimeAndAssetId(LocalDateTime timestampTarget, int assetId) {
 
         // Get priceModel of the asset right before provided timestamp
-        PriceModel priceBefore =;
+        PriceModel priceBefore = priceDao.getPriceBeforeTimestampByAssetID(timestampTarget, assetId);
         // Get priceModel of the asset right after provided timestamp
-        PriceModel priceAfter =;
+        PriceModel priceAfter = priceDao.getPriceAfterTimestampByAssetID(timestampTarget, assetId);
 
-        // Calculate time delta to see which price is closest to provided timestamp
-        if (timestampTarget - priceBefore.getTimestamp() <= priceAfter.getTimestamp() - timestampTarget) {
+        // Calculate time delta in milliseconds to see which price is closest to provided timestamp
+        if (TimeUtil.deltaMillis(timestampTarget, priceBefore.getTimestamp())
+                <= TimeUtil.deltaMillis(timestampTarget, priceAfter.getTimestamp())) {
             // Price right before is closest to timestamp
             return priceBefore;
-        } else {
-            // Price right after is closest to timestamp
-            return priceAfter;
         }
+
+        // Price right after is closest to timestamp
+        return priceAfter;
     }
 
 
@@ -60,10 +64,11 @@ public class PortfolioMetricsService {
      * @param userId id of the user
      * @return List of asset objects
      */
-    public List<AssetObjects> getOpenPositionsByUserId(int userId) {
+    public List<UserAssetModel> getOpenPositionsByUserId(int userId) {
         if (userId < 0) throw new IllegalArgumentException("Invalid user ID: " + userId);
 
-        List<String> assetsS = new ArrayList<>();
+        List<UserAssetModel> assets = new ArrayList<UserAssetModel>();
+
         // Call doa and get back a list of hold asset objects
         List<AssetObjects> assets =
 
