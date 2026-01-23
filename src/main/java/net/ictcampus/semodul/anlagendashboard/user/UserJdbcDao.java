@@ -20,7 +20,8 @@ public class UserJdbcDao implements UserDao {
 	 */
 	@Override
 	public UserModel findById(int id) {
-		String sql = "SELECT ID_User, Email, FirstName, LastName, Password FROM user WHERE ID_User = ?";
+		String sql = "SELECT ID_User, Email, FirstName, LastName, " +
+				"Password FROM user WHERE ID_User = ?";
 		try (Connection con = ConnectionFactory.getInstance().getConnection();
 			 PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -42,7 +43,9 @@ public class UserJdbcDao implements UserDao {
 
 		} catch (SQLException e) {
 			throw new RuntimeException(
-					"Error from database while trying to get user data for user with ID " + id + ". " + e.getMessage(), e);
+					"Error from database while trying to get user data for user with ID " + id +
+							". " + e.getMessage(), e);
 		}
 	}
+
 }

@@ -38,7 +38,7 @@ public class UserAssetJdbcDao implements UserAssetDao {
 			try (ResultSet rs = ps.executeQuery()) {
 				while (rs.next()) {
 					openPositions.add(new UserAssetModel(
-							rs.getInt("ID_UserAsset"),
+							rs.getInt("ID_User_Asset"),
 							rs.getInt("User_ID"),
 							rs.getInt("Asset_ID"),
 							rs.getInt("Broker_ID"),
@@ -56,6 +56,5 @@ public class UserAssetJdbcDao implements UserAssetDao {
 
 		return openPositions;
 	}
-
 }
 
