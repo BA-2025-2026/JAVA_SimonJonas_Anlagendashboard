@@ -66,3 +66,5 @@ from user_asset;
 
 select *
 from user;
+
+explain user_asset;

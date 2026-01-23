@@ -42,7 +42,7 @@ public class UserAssetJdbcDao implements UserAssetDao {
 							rs.getInt("User_ID"),
 							rs.getInt("Asset_ID"),
 							rs.getInt("Broker_ID"),
-							rs.getInt("Quantity"),
+							rs.getDouble("Quantity"),
 							rs.getTimestamp("PurchasedAt").toLocalDateTime(),
 							null // SoldAt ist bei offenen Positionen immer null
 					));
