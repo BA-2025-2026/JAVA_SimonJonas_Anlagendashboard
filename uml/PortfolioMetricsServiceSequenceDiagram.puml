@@ -1,0 +1,64 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+'TODO: Könnte noch verschönert werden, z.B. getPriceByTimeAndAssetId wird implizit aufgerufen, aber nie dargestellt
+title: Sequence\nPortfolioMetricsService.getPortfolioMetricsByUserId()
+
+participant PortfolioMetricsService as Service
+participant userAssetDao
+participant priceDao
+
+[-> Service : getPortfolioMetricsByUserId(...)
+activate Service
+
+' TODO: if userid <0 check... ??
+
+Service -> userAssetDao: getOpenPositionsByUserId(...)
+activate userAssetDao
+userAssetDao --> Service: List<UserAssetModel> openPositions
+deactivate userAssetDao
+
+' TODO: if open positions = null
+
+group getPositionsTotalValue(openPositions)
+    loop UserAssetModel position : openPositions
+        Service -> priceDao: getPriceBeforeTimestampByAssetId(...)
+        activate priceDao
+        Service <-- priceDao: PriceModel priceBefore
+        deactivate priceDao
+        Service -> priceDao: getPriceAfterTimestampByAssetId(...)
+        activate priceDao
+        Service <-- priceDao: PriceModel priceAfter
+        deactivate priceDao
+    end
+end
+
+group getPositionsTotalInvested(openPositions)
+    loop UserAssetModel position : openPositions
+        Service -> priceDao: getPriceBeforeTimestampByAssetId(...)
+        activate priceDao
+        Service <-- priceDao: PriceModel priceBefore
+        deactivate priceDao
+        Service -> priceDao: getPriceAfterTimestampByAssetId(...)
+        activate priceDao
+        Service <-- priceDao: PriceModel priceAfter
+        deactivate priceDao
+    end
+end
+
+participant FinanceMathUtil
+Service -> FinanceMathUtil: calculateAbsolutePerformance(...)
+activate FinanceMathUtil
+Service <-- FinanceMathUtil: absolutePerformance
+deactivate FinanceMathUtil
+
+Service -> FinanceMathUtil: calculateRelativePerformance(...)
+activate FinanceMathUtil
+Service <-- FinanceMathUtil: relativePerformance
+deactivate FinanceMathUtil
+
+[<- Service : PortfolioMetricsDto
+
+@enduml
