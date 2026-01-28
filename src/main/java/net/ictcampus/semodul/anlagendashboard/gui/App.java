@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import net.ictcampus.semodul.anlagendashboard.portfoliometrics.*;
 import net.ictcampus.semodul.anlagendashboard.user.UserController;
 import net.ictcampus.semodul.anlagendashboard.user.UserDao;
 import net.ictcampus.semodul.anlagendashboard.user.UserJdbcDao;
@@ -25,15 +26,19 @@ public class App extends Application {
     UserDao userDao = new UserJdbcDao();
     UserService userService = new UserService(userDao);
     UserController userController = new UserController(userService);
+    PriceDao priceDao = new PriceJdbcDao();
+    UserAssetDao userAssetDao = new UserAssetJdbcDao();
+    PortfolioMetricsService portfolioMetricsService = new PortfolioMetricsService(priceDao, userAssetDao);
+    PortfolioMetricsController portfolioMetricsController = new PortfolioMetricsController(portfolioMetricsService);
 
     @Override
     public void start(Stage stage) {
         // GetUserById text field and button
         TextField userIdField = new TextField();
         userIdField.setPromptText("User ID");
-        Button btn = new Button("Find User by ID");
+        Button findUserByIdButton = new Button("Find User by ID");
         // Send a request to getUserByIdEndpoint in the user controller
-        btn.setOnAction(e -> {
+        findUserByIdButton.setOnAction(e -> {
             try {
                 int userId = Integer.parseInt(userIdField.getText());
                 userController.getUserByIdEndpoint(userId);
@@ -43,9 +48,21 @@ public class App extends Application {
             }
         });
 
+        Button getPortfolioMetricsByUserIdButton = new Button("Get Portfolio Metrics by User ID");
+        getPortfolioMetricsByUserIdButton.setOnAction(e -> {
+            try {
+                int userId = Integer.parseInt(userIdField.getText());
+                portfolioMetricsController.getPortfolioMetricsByUserIdEndpoint(userId);
+                userIdField.clear();
+            } catch (NumberFormatException er) {
+                System.out.println("User ID needs to be a number (integer): " + er.getMessage());
+            }
+        });
+
+
         // Create layout and add elements (button)
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(userIdField, btn);
+        vBox.getChildren().addAll(userIdField, findUserByIdButton, getPortfolioMetricsByUserIdButton);
 
         // Create scene (window content)
         Scene scene = new Scene(vBox, 600, 400);

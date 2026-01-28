@@ -8,17 +8,26 @@ import java.time.LocalDateTime;
  * and the currency.
  */
 public class PortfolioMetricsDto {
+
     public int userId;
-    public LocalDateTime timestamp;
+    /**
+     * ISO-8601 timestamp as String, e.g. "2026-01-23T15:30:12.345678900"
+     */
+    public String timestamp;
     public double totalPortfolioValue;
     public double investedTotalValue;
     public double absolutePerformance;
     public double relativePerformance;
     public final String currency = "CHF";
 
-    public PortfolioMetricsDto(int userId, double totalPortfolioValue, double investedTotalValue, double absolutePerformance, double relativePerformance) {
+    public PortfolioMetricsDto(int userId,
+                               double totalPortfolioValue,
+                               double investedTotalValue,
+                               double absolutePerformance,
+                               double relativePerformance) {
+
         this.userId = userId;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = LocalDateTime.now().toString();
         this.totalPortfolioValue = totalPortfolioValue;
         this.investedTotalValue = investedTotalValue;
         this.absolutePerformance = absolutePerformance;
@@ -29,8 +38,16 @@ public class PortfolioMetricsDto {
         return userId;
     }
 
+    public String getTimestamp() {
+        return timestamp;
+    }
+
     public double getTotalPortfolioValue() {
         return totalPortfolioValue;
+    }
+
+    public double getInvestedTotalValue() {
+        return investedTotalValue;
     }
 
     public double getAbsolutePerformance() {
