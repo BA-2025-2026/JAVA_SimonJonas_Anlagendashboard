@@ -40,9 +40,7 @@ public class FinanceMathUtil {
 
         // Prevent division by 0 (If start value is 0)
         if (startValue == 0) {
-            // Climbing from 0 to any amount would be an infinitely high performance, hence we return 1 (= 100%)
-            // If end value is 0 too, there has been no performance at all, return 0 (= 0%)
-            return endValue > 0 ? 1.0 : 0.0;
+            throw new IllegalArgumentException("Start value cannot be 0 for performance calculation");
         }
 
         // Performance formula: (endValue - startValue) / startValue
