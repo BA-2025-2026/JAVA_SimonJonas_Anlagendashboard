@@ -10,52 +10,53 @@ participant PortfolioMetricsService as Service
 participant userAssetDao
 participant priceDao
 
-[-> Service : getPortfolioMetricsByUserId()
+[-> Service : getPortfolioMetricsByUserId(...)
 activate Service
 
 ' TODO: if userid <0 check... ??
 
-Service -> userAssetDao: getOpenPositionsByUserId()
+Service -> userAssetDao: getOpenPositionsByUserId(...)
 activate userAssetDao
 userAssetDao --> Service: List<UserAssetModel> openPositions
 deactivate userAssetDao
 
 ' TODO: if open positions = null
 
-Service -> Service: getPositionsTotalValue(openPositions)
-loop UserAssetModel position : openPositions
-    Service -> priceDao: getPriceBeforeTimestampByAssetId()
-    activate priceDao
-    Service <-- priceDao: PriceModel priceBefore
-    deactivate priceDao
-    Service -> priceDao: getPriceAfterTimestampByAssetId()
-    activate priceDao
-    Service <-- priceDao: PriceModel priceAfter
-    deactivate priceDao
+group getPositionsTotalValue(openPositions)
+    loop UserAssetModel position : openPositions
+        Service -> priceDao: getPriceBeforeTimestampByAssetId(...)
+        activate priceDao
+        Service <-- priceDao: PriceModel priceBefore
+        deactivate priceDao
+        Service -> priceDao: getPriceAfterTimestampByAssetId(...)
+        activate priceDao
+        Service <-- priceDao: PriceModel priceAfter
+        deactivate priceDao
+    end
 end
 
-Service -> Service: getPositionsTotalInvested(openPositions)
-
-loop UserAssetModel position : openPositions
-    Service -> priceDao: getPriceBeforeTimestampByAssetId()
-    activate priceDao
-    Service <-- priceDao: PriceModel priceBefore
-    deactivate priceDao
-    Service -> priceDao: getPriceAfterTimestampByAssetId()
-    activate priceDao
-    Service <-- priceDao: PriceModel priceAfter
-    deactivate priceDao
+group getPositionsTotalInvested(openPositions)
+    loop UserAssetModel position : openPositions
+        Service -> priceDao: getPriceBeforeTimestampByAssetId(...)
+        activate priceDao
+        Service <-- priceDao: PriceModel priceBefore
+        deactivate priceDao
+        Service -> priceDao: getPriceAfterTimestampByAssetId(...)
+        activate priceDao
+        Service <-- priceDao: PriceModel priceAfter
+        deactivate priceDao
+    end
 end
 
 participant FinanceMathUtil
-Service -> FinanceMathUtil: calculateAbsolutePerformance(investedTotal, totalPortfolioValue)
+Service -> FinanceMathUtil: calculateAbsolutePerformance(...)
 activate FinanceMathUtil
-Service <-- FinanceMathUtil: double absolutePerformance
+Service <-- FinanceMathUtil: absolutePerformance
 deactivate FinanceMathUtil
 
-Service -> FinanceMathUtil: calculateRelativePerformance(investedTotal, totalPortfolioValue)
+Service -> FinanceMathUtil: calculateRelativePerformance(...)
 activate FinanceMathUtil
-Service <-- FinanceMathUtil: double relativePerformance
+Service <-- FinanceMathUtil: relativePerformance
 deactivate FinanceMathUtil
 
 [<- Service : PortfolioMetricsDto
