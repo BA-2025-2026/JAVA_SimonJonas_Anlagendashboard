@@ -29,7 +29,10 @@ public class ConnectionFactory {
     public static ConnectionFactory getInstance() {
         if (connectionFactory == null) {
             // Create connection factory with config info loaded from property file.
-            connectionFactory = new ConnectionFactory(DbProperties.get("db.url"), DbProperties.get("db.user"), DbProperties.get("db.password"));
+            connectionFactory = new ConnectionFactory(
+                    DbProperties.getProperties().getProperty("db.url"),
+                    DbProperties.getProperties().getProperty("db.user"),
+                    DbProperties.getProperties().getProperty("db.password"));
         }
         return connectionFactory;
     }

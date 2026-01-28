@@ -28,6 +28,8 @@ public class UserController {
         System.out.println("==== RESPONSE of GET /users/{id} ====");
 
         try {
+            if (userId <= 0) throw new IllegalArgumentException("User id cannot be 0 or lower.");
+
             // Call to userService
             UserDto userDto = userService.getUserById(userId);
 
@@ -42,7 +44,7 @@ public class UserController {
 
         } catch (IllegalArgumentException e) {
             // Catch error from Service
-            ErrorDto errorDto = new ErrorDto("Invalid request: " + e.getMessage());
+            ErrorDto errorDto = new ErrorDto("Invalid argument in request with user ID: " + userId + ". " + e.getMessage());
             System.out.println(JsonUtil.toJson(errorDto));
         } catch (RuntimeException e) {
             // Catch error from JDBC etc.
