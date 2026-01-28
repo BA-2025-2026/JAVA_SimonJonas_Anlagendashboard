@@ -1,6 +1,7 @@
 ### JDBC Database Connection ###
 # Property file that stores database link, user and password information.
 config.properties
+src/main/java/resources/config.properties
 
 ### Basics ###
 target/

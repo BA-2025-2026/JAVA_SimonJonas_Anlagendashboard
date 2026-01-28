@@ -1,10 +1,10 @@
-/**
- * Interface for accessing user asset data.
- */
 package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import java.util.List;
 
+/**
+ * Interface for accessing user asset data.
+ */
 public interface UserAssetDao {
 	/**
 	 * Retrieves the open positions for a user based on their user ID.

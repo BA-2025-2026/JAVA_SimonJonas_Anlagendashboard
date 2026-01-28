@@ -1,6 +1,7 @@
 package net.ictcampus.semodul.anlagendashboard.user;
 
 import net.ictcampus.semodul.anlagendashboard.database.ConnectionFactory;
+import net.ictcampus.semodul.anlagendashboard.utility.NoDataFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,7 +39,7 @@ public class UserJdbcDao implements UserDao {
 						rs.getString("Password")
 				);
 			} else {
-				throw new RuntimeException("No user found in database for id " + id);
+				throw new NoDataFoundException("No user found in database for id " + id);
 			}
 
 		} catch (SQLException e) {

@@ -91,7 +91,7 @@ public class PortfolioMetricsServiceTest {
 		public PriceModel getPriceAfterTimestampByAssetID(
 				LocalDateTime timestamp, int assetId) {
 
-			return null;    // reicht für unseren Test
+			return null;    // Is enough for this test purpose
 		}
 	}
 

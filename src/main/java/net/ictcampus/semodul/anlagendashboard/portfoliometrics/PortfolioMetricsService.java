@@ -1,6 +1,7 @@
 package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import net.ictcampus.semodul.anlagendashboard.utility.FinanceMathUtil;
+import net.ictcampus.semodul.anlagendashboard.utility.NoDataFoundException;
 import net.ictcampus.semodul.anlagendashboard.utility.TimeUtil;
 
 import java.rmi.ServerError;
@@ -8,15 +9,29 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class responsible for calculating portfolio performance metrics.
+ */
 public class PortfolioMetricsService {
     PriceDao priceDao;
     UserAssetDao userAssetDao;
 
+    /**
+     * Constructs a new PortfolioMetricsService with required DAOs.
+     * @param priceDao the data access object for price information
+     * @param userAssetDao the data access object for user asset information
+     */
     public PortfolioMetricsService(PriceDao priceDao, UserAssetDao userAssetDao) {
         this.priceDao = priceDao;
         this.userAssetDao = userAssetDao;
     }
 
+    /**
+     * Calculates and returns portfolio metrics for a specific user.
+     * @param userId the ID of the user
+     * @return a DTO containing all calculated metrics
+     * @throws IllegalArgumentException if the user ID is invalid
+     */
     public PortfolioMetricsDto getPortfolioMetricsByUserId(int userId) {
         // Validate user id
         if (userId < 0) throw new IllegalArgumentException("Invalid user ID: " + userId);
@@ -26,7 +41,7 @@ public class PortfolioMetricsService {
 
         // If user doesn't have any open positions, return MetricsDto with 0
         if (openPositions == null || openPositions.isEmpty()) {
-            throw new RuntimeException("No open positions found for user with id " + userId);
+            throw new NoDataFoundException("No open positions found for user with id " + userId);
         }
 
         // CALCULATE METRICS
@@ -62,7 +77,7 @@ public class PortfolioMetricsService {
 
         // No prices found at all
         if (priceBefore == null && priceAfter == null) {
-            throw new RuntimeException("Internal server error: No price data found for asset id: " + assetId);
+            throw new NoDataFoundException("Internal server error: No price data found for asset id: " + assetId);
         }
 
         // Only one price found
@@ -82,13 +97,13 @@ public class PortfolioMetricsService {
     }
 
     /**
-     * Berechnet den aktuellen Gesamtwert des Portfolios basierend auf den neuesten verfügbaren Preisen.
+     * Calculates the current total value of the portfolio based on the latest available prices.
      * <p>
-     * Diese Methode iteriert über alle offenen Positionen und ermittelt für jedes Asset
-     * den zeitlich am nächsten liegenden Preis zum aktuellen Zeitpunkt.
+     * This method iterates over all open positions and determines the price closest
+     * to the current time for each asset.
      * </p>
-     * @param openPositions Eine Liste der aktuell gehaltenen Assets des Benutzers.
-     * @return Der kumulierte Marktwert aller Positionen in der Standardwährung.
+     * @param openPositions A list of the user's currently held assets.
+     * @return The cumulative market value of all positions in the standard currency.
      */
     private double getPositionsTotalValue(List<UserAssetModel> openPositions) {
 
@@ -111,13 +126,13 @@ public class PortfolioMetricsService {
     }
 
     /**
-     * Berechnet die Summe des ursprünglich investierten Kapitals für alle offenen Positionen.
+     * Calculates the sum of the originally invested capital for all open positions.
      * <p>
-     * Für jede Position wird der historische Preis zum exakten Zeitpunkt des Kaufs
-     * ermittelt und mit der gehaltenen Menge multipliziert.
+     * For each position, the historical price at the exact time of purchase
+     * is determined and multiplied by the quantity held.
      * </p>
-     * @param openPositions Eine Liste der aktuell gehaltenen Assets des Benutzers.
-     * @return Die Summe der Anschaffungskosten (Investitionssumme) für die gegebenen Positionen.
+     * @param openPositions A list of the user's currently held assets.
+     * @return The sum of acquisition costs (total investment) for the given positions.
      */
     private double getPositionsTotalInvested(List<UserAssetModel> openPositions) {
         double totalInvested = 0.0;

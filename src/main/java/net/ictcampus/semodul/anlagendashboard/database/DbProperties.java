@@ -10,7 +10,7 @@ import java.util.Properties;
  * (DB-Access-Information) will be requested for the first time. After that, these variables will be
  * available until the application ends.
  *
- * To enable db connection add a file "config.properties" to your project folder.
+ * To enable db connection add a file "config.properties" to src/main/resources.
  * File needs to follow this structure:
  *
  * db.url=jdbc:mysql://localhost:3306/java_simonjonas_anlagendashboard_db

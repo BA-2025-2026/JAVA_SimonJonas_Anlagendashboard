@@ -1,10 +1,12 @@
-/**
- * Data model representing the price of an asset at a specific point in time.
- */
 package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import java.time.LocalDateTime;
 
+/**
+ * Data model representing the price of an asset at a specific point in time.
+ * Holds price data received from database: id of the db entry (primary key), id of the asset, timestamp of the price,
+ * price itself.
+ */
 public class PriceModel {
 	private int idPrice;
 	private int assetId;

@@ -16,7 +16,7 @@ import net.ictcampus.semodul.anlagendashboard.user.UserService;
 /**
  * Main application class.
  * Does the Setup and rendering for JavaFX GUI: The GUI is used to trigger requests to the
- * endpoints of the mockup API.
+ * endpoints of the API.
  */
 public class App extends Application {
 

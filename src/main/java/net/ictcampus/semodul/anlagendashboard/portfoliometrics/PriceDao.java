@@ -1,10 +1,10 @@
-/**
- * Interface for accessing price data of assets.
- */
 package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 
 import java.time.LocalDateTime;
 
+/**
+ * Interface for accessing price data of assets.
+ */
 public interface PriceDao {
 	/**
 	 * Retrieves the price of an asset that was recorded before the specified timestamp.
@@ -13,7 +13,7 @@ public interface PriceDao {
 	 * @param assetId The unique identifier of the asset for which the price is sought.
 	 * @return The price of the asset as a data structure or object, if found, before the given timestamp.
 	 */
-	public PriceModel getPriceBeforeTimestampByAssetID(LocalDateTime timestamp, int assetId);
+	PriceModel getPriceBeforeTimestampByAssetID(LocalDateTime timestamp, int assetId);
 	/**
 	 * Retrieves the price of an asset that was recorded after the specified timestamp.
 	 *
@@ -21,5 +21,5 @@ public interface PriceDao {
 	 * @param assetId The unique identifier of the asset for which the price is sought.
 	 * @return The price of the asset as a data structure or object, if found, after the given timestamp.
 	 */
-	public PriceModel getPriceAfterTimestampByAssetID(LocalDateTime timestamp, int assetId);
+	PriceModel getPriceAfterTimestampByAssetID(LocalDateTime timestamp, int assetId);
 }
