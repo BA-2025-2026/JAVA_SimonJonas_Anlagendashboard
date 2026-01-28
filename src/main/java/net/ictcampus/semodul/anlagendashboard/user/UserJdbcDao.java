@@ -38,12 +38,12 @@ public class UserJdbcDao implements UserDao {
 						rs.getString("Password")
 				);
 			} else {
-				return null;
+				throw new RuntimeException("No user found in database for id " + id);
 			}
 
 		} catch (SQLException e) {
 			throw new RuntimeException(
-					"Error from database while trying to get user data for user with ID " + id +
+					"Database error from database while trying to get user data for user with ID " + id +
 							". " + e.getMessage(), e);
 		}
 	}

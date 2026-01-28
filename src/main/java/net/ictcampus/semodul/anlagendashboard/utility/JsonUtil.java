@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * Utility class using GSON (JSON parsing library by Google) to easily parse a java object to a JSON string: toJson();
- * Works the other way round too: Create a java object from a JSON string: fromJson();
+ * Utility class using GSON (JSON parsing library by Google) to easily parse a java object to a JSON string.
+ * Works the other way round too: Create a java object from a JSON string.
  */
 public class JsonUtil {
     private static final Gson GSON = new GsonBuilder()

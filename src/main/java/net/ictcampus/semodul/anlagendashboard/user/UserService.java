@@ -22,22 +22,20 @@ public class UserService {
 	 * @return UserDto or null if no user with this ID exists
 	 */
 	public UserDto getUserById(int id) {
-		if (id > 0) {
-			UserModel user = userDao.findById(id);
+		if (id < 0) throw new IllegalArgumentException("User id " + id + "is negative: This is not a valid id.");
 
-			if (user == null) {
-				return null;
-			}
+		// Search for the user in the db
+		UserModel user = userDao.findById(id);
 
-			return new UserDto(
-					user.getUserId(),
-					user.getFirstName(),
-					user.getLastName(),
-					user.getEmail()
-			);
-		} else {
-			throw new IllegalArgumentException("Invalid user ID: " + id);
-		}
+		// Technically redundant, but just to be sure...
+		if (user == null) throw new RuntimeException("No user found in database for id " + id);
 
+		// Found a user: Create Dto
+		return new UserDto(
+				user.getUserId(),
+				user.getFirstName(),
+				user.getLastName(),
+				user.getEmail()
+		);
 	}
 }

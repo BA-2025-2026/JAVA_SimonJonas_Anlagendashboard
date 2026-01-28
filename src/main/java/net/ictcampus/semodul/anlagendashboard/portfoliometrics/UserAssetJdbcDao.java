@@ -51,7 +51,7 @@ public class UserAssetJdbcDao implements UserAssetDao {
 
 		} catch (SQLException e) {
 			throw new RuntimeException(
-					"Error while loading open positions for user with ID " + userId, e);
+					"Database error while loading open positions for user with ID " + userId, e);
 		}
 
 		return openPositions;

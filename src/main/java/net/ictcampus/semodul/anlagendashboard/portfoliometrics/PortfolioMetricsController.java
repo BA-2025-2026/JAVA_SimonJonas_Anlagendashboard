@@ -20,8 +20,9 @@ public class PortfolioMetricsController {
 
 	public void getPortfolioMetricsByUserIdEndpoint(int userId) {
 		System.out.println("==== RESPONSE of GET /portfoliometrics/{id} ====");
-
 		try {
+			if (userId <= 0) throw new IllegalArgumentException("User id cannot be 0 or lower.");
+
 			PortfolioMetricsDto portfolioMetricsDto = portfolioMetricsService.getPortfolioMetricsByUserId(userId);
 
 			if (portfolioMetricsDto == null) {
@@ -31,7 +32,7 @@ public class PortfolioMetricsController {
 				System.out.println(JsonUtil.toJson(portfolioMetricsDto));
 			}
 		} catch (IllegalArgumentException e) {
-			ErrorDto errorDto = new ErrorDto("Invalid user ID: " + userId);
+			ErrorDto errorDto = new ErrorDto("Invalid argument in request with user ID: " + userId + ". " + e.getMessage());
 			System.out.println(JsonUtil.toJson(errorDto));
 		} catch (RuntimeException e) {
 			ErrorDto errorDto = new ErrorDto(e.getMessage());

@@ -2,6 +2,7 @@ package net.ictcampus.semodul.anlagendashboard.database;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -17,20 +18,24 @@ import java.util.Properties;
  * db.password=[YOUR PASSWORD]
  */
 public class DbProperties {
-    private static final Properties properties = new Properties();
+    private static Properties props;
 
     // Read properties
-    // Static block gets executed on first load of class
-    static {
-        try (FileInputStream fileInputStream = new FileInputStream("config.properties")) {
-            properties.load(fileInputStream);
-        } catch (IOException e) {
-            throw new RuntimeException("Error while loading database properties from property file.", e);
+    public static Properties getProperties() {
+        if (props == null) {
+            props = new Properties();
+            try (InputStream input = DbProperties.class.getClassLoader().getResourceAsStream("config.properties")) {
+                if (input == null) {
+                    // No property file found
+                    throw new RuntimeException("Could not find file config.properties in resources folder. " +
+                            "File config.properties needs to be created in order to load username and password for " +
+                            "the database. Did you forget to create it?");
+                }
+                props.load(input);
+            } catch (IOException e) {
+                throw new RuntimeException("Error while reading property file with database properties.", e);
+            }
         }
-    }
-
-    // Access property data
-    public static String get(String key) {
-        return properties.getProperty(key);
+        return props;
     }
 }

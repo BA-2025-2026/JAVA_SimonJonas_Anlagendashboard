@@ -3,6 +3,7 @@ package net.ictcampus.semodul.anlagendashboard.portfoliometrics;
 import net.ictcampus.semodul.anlagendashboard.utility.FinanceMathUtil;
 import net.ictcampus.semodul.anlagendashboard.utility.TimeUtil;
 
+import java.rmi.ServerError;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class PortfolioMetricsService {
 
         // If user doesn't have any open positions, return MetricsDto with 0
         if (openPositions == null || openPositions.isEmpty()) {
-            return new PortfolioMetricsDto(userId, 0, 0, 0, 0);
+            throw new RuntimeException("No open positions found for user with id " + userId);
         }
 
         // CALCULATE METRICS
@@ -60,7 +61,9 @@ public class PortfolioMetricsService {
         PriceModel priceAfter = priceDao.getPriceAfterTimestampByAssetID(timestampTarget, assetId);
 
         // No prices found at all
-        if (priceBefore == null && priceAfter == null) return 0.0;
+        if (priceBefore == null && priceAfter == null) {
+            throw new RuntimeException("Internal server error: No price data found for asset id: " + assetId);
+        }
 
         // Only one price found
         if (priceBefore == null) return priceAfter.getPrice();

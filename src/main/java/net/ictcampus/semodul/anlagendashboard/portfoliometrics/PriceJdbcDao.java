@@ -55,7 +55,7 @@ public class PriceJdbcDao implements PriceDao {
 
 		} catch (SQLException e) {
 			throw new RuntimeException(
-					"Error while querying price (before timestamp) for assetID "
+					"Database error while querying price (before timestamp) for assetID "
 							+ assetId + " and timestamp " + timestamp + ".", e);
 		}
 	}
@@ -101,7 +101,7 @@ public class PriceJdbcDao implements PriceDao {
 
 		} catch (SQLException e) {
 			throw new RuntimeException(
-					"Error while querying price (after timestamp) for assetID "
+					"Database error while querying price (after timestamp) for assetID "
 							+ assetId + " and timestamp " + timestamp + ".", e);
 		}
 	}
