@@ -33,7 +33,7 @@ public class App extends Application {
     public void start(Stage stage) {
         // GetUserById text field and button
         TextField userIdField = new TextField();
-        userIdField.setPromptText("User ID");
+        userIdField.setPromptText("Please enter a User ID (needs to be a positive, whole number)");
 
         // getUserByIdEndpoint Button and event handling
         Button findUserByIdButton = new Button("Find User by ID");
