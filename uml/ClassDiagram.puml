@@ -1,0 +1,145 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+' --- Klassen-Definitionen ---
+
+class Main {
+    + {static} void main(String[] args)
+}
+
+class App {
+    + void start(Stage stage)
+    + {static} void main(String[] args)
+}
+
+' User-Modul
+class UserModel {
+    - int userId
+    - String firstName
+    - String lastName
+    - String email
+    - String passwordHash
+}
+
+interface UserDao {
+    + findById()
+}
+
+class UserJdbcDao {
+    - ConnectionFactory connectionFactory
+    + findById()
+}
+
+class UserService {
+    - UserDao userDao
+    + getUserById()
+}
+
+class UserDto {
+    - int userId
+    - String firstName
+    - String lastName
+}
+
+class UserController {
+    - UserService userService
+    + getUserByIdEndpoint()
+}
+
+' Asset-Modul
+class UserAssetModel {
+    - int id
+    - int userId
+    - int assetId
+    - double amount
+    - double priceAtPurchase
+}
+
+interface UserAssetDao {
+	+ getOpenPositionsByUserId()
+}
+
+class UserAssetJdbcDao {
+    - ConnectionFactory connectionFactory
+	+ getOpenPositionsByUserId()
+}
+
+' Price-Modul
+class PriceModel {
+    - int assetId
+    - double price
+    - LocalDateTime timestamp
+}
+
+interface PriceDao {
+	+ getPriceBeforeTimestampByAssetID()
+	+ getPriceAfterTimestampByAssetID()
+}
+
+class PriceJdbcDao {
+    - ConnectionFactory connectionFactory
+	+ getPriceBeforeTimestampByAssetID()
+	+ getPriceAfterTimestampByAssetID()
+}
+
+' Portfolio-Modul
+class PortfolioMetricsService {
+    - PriceDao priceDao
+    - UserAssetDao userAssetDao
+    + getPortfolioMetricsByUserId()
+}
+
+class PortfolioMetricsDto {
+    - int userId
+    - double totalPortfolioValue
+    - double investedTotalValue
+    - double absolutePerformance
+    - double relativePerformance
+}
+
+class PortfolioMetricsController {
+    - PortfolioMetricsService service
+	+ getPortfolioMetricsByUserIdEndpoint()
+}
+
+' Hilfsklassen
+class ConnectionFactory {
+    - {static} ConnectionFactory instance
+    + {static} ConnectionFactory getInstance()
+    + Connection getConnection()
+}
+
+class DbProperties {
+    - {static} Properties props
+    + {static} Properties getProperties()
+}
+
+' --- Beziehungen (Relationships) ---
+
+' Vererbungen / Implementierungen
+UserDao <|.. UserJdbcDao : implementiert
+UserAssetDao <|.. UserAssetJdbcDao : implementiert
+PriceDao <|.. PriceJdbcDao : implementiert
+
+' Abhängigkeiten / Assoziationen
+Main ..> App : ruft auf
+App ..> PortfolioMetricsController : ruft auf
+App ..> UserController : ruft auf
+UserController --> UserService
+UserService --> UserDao
+UserDao ..> UserModel : nutzt
+UserService ..> UserDto : nutzt
+
+PortfolioMetricsController --> PortfolioMetricsService
+PortfolioMetricsService --> PriceDao
+PortfolioMetricsService --> UserAssetDao
+PortfolioMetricsService ..> PortfolioMetricsDto : nutzt
+
+UserJdbcDao --> ConnectionFactory
+UserAssetJdbcDao --> ConnectionFactory
+UserAssetDao ..> UserAssetModel : nutzt
+PriceJdbcDao --> ConnectionFactory
+PriceDao ..> PriceModel : nutzt
+DbProperties <.. ConnectionFactory : nutzt
+
+@enduml
