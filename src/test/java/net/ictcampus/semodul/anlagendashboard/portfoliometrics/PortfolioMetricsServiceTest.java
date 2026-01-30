@@ -4,6 +4,7 @@ import net.ictcampus.semodul.anlagendashboard.database.ConnectionFactory;
 import net.ictcampus.semodul.anlagendashboard.portfoliometrics.PriceDao;
 import net.ictcampus.semodul.anlagendashboard.portfoliometrics.UserAssetDao;
 
+import net.ictcampus.semodul.anlagendashboard.utility.NoDataFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -138,7 +139,7 @@ public class PortfolioMetricsServiceTest {
 	 */
 
 	@Test
-	void getPortfolioMetricsByUserId_noOpenPositions_returnsZeroMetrics() {
+	void getPortfolioMetricsByUserId_noOpenPositions_throwsNoDataFoundException() {
 		// Arrange
 		int userId = 7;
 		PortfolioMetricsService service = new PortfolioMetricsService(
@@ -146,15 +147,8 @@ public class PortfolioMetricsServiceTest {
 				new FakeUserAssetDaoEmpty()
 		);
 
-		// Act
-		PortfolioMetricsDto dto = service.getPortfolioMetricsByUserId(userId);
-
-		// Assert
-		assertEquals(userId, dto.getUserId());
-		assertEquals(0.0, dto.getTotalPortfolioValue());
-		assertEquals(0.0, dto.getInvestedTotalValue());
-		assertEquals(0.0, dto.getAbsolutePerformance());
-		assertEquals(0.0, dto.getRelativePerformance());
+		// Act & Assert
+		assertThrows(NoDataFoundException.class, () -> service.getPortfolioMetricsByUserId(userId));
 
 	}
 }
