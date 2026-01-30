@@ -10,9 +10,20 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit test class for the {@link PortfolioMetricsController} focused on error resilience.
+ * <p>
+ * This class uses static inner "Fake" classes to simulate specific infrastructure
+ * behaviors, such as database failures. It ensures that the controller layer
+ * correctly catches exceptions and returns a formatted JSON error response
+ * rather than leaking stack traces or partial data.
+ */
 public class TestClassST10 {
 
-	// Fake DAO that always throws: simulates DB/DAO error
+	/**
+	 * A simulated Data Access Object that always throws a {@link RuntimeException}.
+	 * Used to test how the service and controller handle unexpected DAO failures.
+	 */
 	private static class FakeUserAssetDaoError implements UserAssetDao {
 		@Override
 		public List<UserAssetModel> getOpenPositionsByUserId(int userId) {
@@ -22,7 +33,10 @@ public class TestClassST10 {
 		}
 	}
 
-	// Minimal PriceDao stub required by the service
+	/**
+	 * A minimal implementation of {@link PriceDao} that performs no operations.
+	 * Used as a stub where price data is required but not the focus of the test.
+	 */
 	private static class FakePriceDaoNoOp implements PriceDao {
 		@Override
 		public PriceModel getPriceBeforeTimestampByAssetID(LocalDateTime timestamp, int assetId) {
@@ -35,6 +49,18 @@ public class TestClassST10 {
 		}
 	}
 
+	/**
+	 * Verifies that when the DAO fails, the controller prints a valid JSON error
+	 * response to the console.
+	 * <p>
+	 * The test checks that:
+	 * <ul>
+	 * <li>The response header is present.</li>
+	 * <li>The specific error message from the DAO is included.</li>
+	 * <li>Standard JSON error fields (message, timestamp) are present.</li>
+	 * <li>No metrics data or stack traces are leaked to the output.</li>
+	 * </ul>
+	 */
 	@Test
 	void getPortfolioMetricsByUserIdEndpoint_whenDaoFails_printsErrorJsonWithoutStacktraceOrMetrics() {
 		int userId = 2;
